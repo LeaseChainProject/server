@@ -2,15 +2,17 @@ import { Property } from '../models/property.model.js'
 
 const create = (req, res) => {
   // create a save a new property
+  console.log(req.body);
   if(!req.body) {
     return res.status(400).send({message: "Property form cannot be empty"});
   }
 
   var property= new Property ({
-              property_name: req.body.PropertyName,
-              address: req.body.Address,
-              zip_code: req.body.Zipcode,
-              units: req.body.NumberofUnits
+              property_name: req.body.name,
+              address: req.body.address,
+              zip_code: req.body.zip,
+              num_units: req.body.units,
+              property_id: req.body.pid
             });
   property.save((err, data) =>  {
     if(err) {
@@ -40,12 +42,12 @@ const findOne = (req, res) => {
       if(err) {
         console.log(err);
         if(err.kind === 'ObjectId') {
-          return res.status(404).send({message: "Property not found with id " + req.params.PropertyName});                
+          return res.status(404).send({message: "Property not found with id " + req.params.name});                
         }
-        return res.status(500).send({message: "Error retrieving property with id " + req.params.PropertyName});
+        return res.status(500).send({message: "Error retrieving property with id " + req.params.name});
       } 
       if(!property) {
-          return res.status(404).send({message: "Property not found with id " + req.params.PropertyName});            
+          return res.status(404).send({message: "Property not found with id " + req.params.name});            
       }
 
       res.send(property);

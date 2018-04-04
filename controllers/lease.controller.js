@@ -1,4 +1,5 @@
 import { Lease } from '../models/lease.model.js'
+import { CreateContract } from '../contract'
 
 const create = (req, res) => {
   // create a save a new lease
@@ -6,7 +7,7 @@ const create = (req, res) => {
     return res.status(400).send({message: "lease form cannot be empty"});
   }
 
-  var lease = new Lease ({
+  Lease.create({
     lease_start_date: req.body.lease_start_date,
     lease_end_date: req.body.lease_end_date,
     monthly_rent: req.body.monthly_rent,
@@ -14,17 +15,15 @@ const create = (req, res) => {
     apartment_number: req.body.apartment_number,
     unit_type: req.body.unit_type,
     tenant_email: req.body.tenant_email,
-  })
-
-  // initiate lease upload on etherscan
-  lease.save((err, data) =>  {
+  }, (err, lease) => {
     if(err) {
       console.log(err);
       res.status(500).send({message: "Some error occurred"});
     } else {
-      res.send(data);
+      res.send(lease);
     }
-  });
+    CreateContract(req.app.get('web3'), lease)
+  })
 };
 
 

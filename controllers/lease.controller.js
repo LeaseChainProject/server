@@ -7,15 +7,14 @@ const create = (req, res) => {
   }
 
   var lease = new Lease ({
-              property_name: req.body.PropertyName,
-              property_id: req.body.PropertyID,
-              apartment_number: req.body.ApartmentNumber,
-              unit_type: req.body.UnitType,
-              tenant_email: req.body.TenantEmail,
-              lease_from_date: req.body.LeaseFromDate,
-              lease_to_date: req.body.LeaseToDate,
-              monthly_rent: req.body.MonthlyRent,
-            });
+    lease_start_date: req.body.lease_start_date,
+    lease_end_date: req.body.lease_end_date,
+    monthly_rent: req.body.monthly_rent,
+    property_id: req.body.property_id,
+    apartment_number: req.body.apartment_number,
+    unit_type: req.body.unit_type,
+    tenant_email: req.body.tenant_email,
+  })
 
   // initiate lease upload on etherscan
   lease.save((err, data) =>  {
@@ -54,7 +53,6 @@ const findByUnitID = (req, res) => {
       if(!leases) {
           return res.status(404).send({message: "Lease not found with id " + req.params.unitID});            
       }
-
       res.send(leases);
 
   });

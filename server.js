@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose'
 
 import config from './config';
+import { initETH } from './contract'
 
 // initialize the API
 const app = express();
@@ -28,6 +29,9 @@ mongoose.connection.once('open', function() {
 });
 
 
+// start web3 server
+const web3 = initETH()
+
 // register routes
 import propertyRoutes from './routes/property.routes.js'
 propertyRoutes(app);
@@ -35,6 +39,8 @@ import leaseRoutes from './routes/lease.routes.js'
 leaseRoutes(app);
 import tenantRoutes from './routes/tenant.routes.js'
 tenantRoutes(app);
+import unitRoutes from './routes/unit.routes.js'
+unitRoutes(app);
 
 
 

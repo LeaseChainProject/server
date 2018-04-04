@@ -1,4 +1,5 @@
-import { Property } from '../models/property.model.js'
+import { Property } from '../models/property.model'
+import { Unit } from '../models/unit.model'
 
 const create = (req, res) => {
   // create a save a new property
@@ -6,15 +7,13 @@ const create = (req, res) => {
   if(!req.body) {
     return res.status(400).send({message: "Property form cannot be empty"});
   }
-
-  var property= new Property ({
-              property_name: req.body.name,
-              address: req.body.address,
-              zip_code: req.body.zip,
-              num_units: req.body.units,
-              property_id: req.body.pid
-            });
-  property.save((err, data) =>  {
+  Property.create({
+    property_name: req.body.property_name,
+    address: req.body.address,
+    zip_code: req.body.zipcode,
+    num_units: req.body.num_units,
+    property_id: req.body.property_id
+  }, (err, data) =>  {
     if(err) {
       console.log(err);
       res.status(500).send({message: "Some error occurred"});
@@ -22,8 +21,15 @@ const create = (req, res) => {
       res.send(data);
     }
   });
+  req.body.units.map(({ unit_type, apartment_number }) => {
+    Unit.create({
+      property_id: req.body.property_id,
+      unit_type,
+      apartment_number,
+      unit_id: `${req.body.property_id}_${apartment_number}_${unit_type}`
+    }, (err) => {console.log(err)})
+  })
 };
-
 
 const findAll = (req, res) => {
   Property.find((err, properties) => {
@@ -49,9 +55,7 @@ const findOne = (req, res) => {
       if(!property) {
           return res.status(404).send({message: "Property not found with id " + req.params.name});            
       }
-
       res.send(property);
-
   });
 };
 

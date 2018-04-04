@@ -11,6 +11,6 @@ var PropertySchema = new Schema({
   timestamps: true
 });
 
-var PropertyModel = mongoose.model('PropertyModel', PropertySchema);
+var PropertyModel = mongoose.model('PropertyModel', PropertySchema)
 
-export { PropertyModel as Property };
+export { PropertyModel as Property};

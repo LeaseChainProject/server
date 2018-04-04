@@ -7,13 +7,13 @@ const create = (req, res) => {
   }
 
   var tenant = new Tenant ({
-              tenant_name: req.body.TenantName,
-              tenant_dob: req.body.TenantDOB,
-              tenant_email: req.body.TenantEmail,
-              tenant_phone: req.body.TenantPhone,
-              income: req.body.TenantIncome,
-              credit_score: req.body.TenantCreditScore
-            });
+    tenant_name: req.body.tenant_name,
+    tenant_dob: req.body.tenant_dob,
+    tenant_email: req.body.tenant_email,
+    tenant_phone: req.body.tenant_phone,
+    income: req.body.income,
+    credit_score: req.body.credit_score 
+  });
 
   // initiate lease upload on etherscan
   tenant.save((err, data) =>  {
@@ -51,9 +51,7 @@ const findByEmail = (req, res) => {
       if(!Tenants) {
           return res.status(404).send({message: "Tenant not found with id " + req.params.TenantEmail});            
       }
-
       res.send(tenant);
-
   });
 };
 

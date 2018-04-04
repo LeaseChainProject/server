@@ -12,6 +12,6 @@ var TenantSchema = new Schema({
   timestamps: true
 });
 
-var TenantModel = mongoose.model('TenantModel', TenantSchema);
+var TenantModel = mongoose.model('TenantModel', TenantSchema)
 
 export { TenantModel as Tenant };

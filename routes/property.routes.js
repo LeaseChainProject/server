@@ -8,6 +8,6 @@ export default function(app) {
   app.get('/properties', property.findAll);
 
   // retrieve a single property with propertyName
-  app.get('/property/:PropertyID', property.findOne);
+  app.get('/properties/:PropertyID', property.findOne);
 
 }
